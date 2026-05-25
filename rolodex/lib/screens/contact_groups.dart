@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:rolodex/data/contact.dart';
+import 'package:rolodex/screens/contacts.dart';
 
 import '../data/contact_group.dart';
 import "../main.dart";
@@ -10,10 +11,13 @@ class ContactGroupsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _ContactGroupsView(
+      onListSelected: (list) => Navigator.of(context).push(
+        CupertinoPageRoute<void>(
+          title: list.title,
+          builder: (context) => ContactListsPage(listId: list.id),
+        ),
+      ),
       selectedListId: 0,
-      onListSelected: (list) {
-        debugPrint(list.toString());
-      },
     );
   }
 }
@@ -82,6 +86,25 @@ class _ContactGroupsView extends StatelessWidget {
           size: 18,
         ),
       ],
+    );
+  }
+}
+
+class ContactGroupsSidebar extends StatelessWidget {
+  const ContactGroupsSidebar({
+    super.key,
+    required this.selectedListId,
+    required this.onListSelected,
+  });
+
+  final int selectedListId;
+  final void Function(int) onListSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return _ContactGroupsView(
+      onListSelected: (list) => onListSelected(list.id),
+      selectedListId: selectedListId,
     );
   }
 }

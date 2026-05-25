@@ -29,27 +29,30 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
         if (isLargeScreen) {
           return _buildLargeScreenLayout();
         } else {
-          return const ContactListsPage(
-            listId: 0,
-            automaticallyImplyLeading: true,
-          );
+          return const ContactGroupsPage();
         }
       },
     );
   }
-}
 
-Widget _buildLargeScreenLayout() {
-  return CupertinoPageScaffold(
-    backgroundColor: CupertinoColors.extraLightBackgroundGray,
-    child: SafeArea(
-      child: Row(
-        children: [
-          const SizedBox(width: 320, child: Text('Sidebar placeholder')),
-          Container(width: 1, color: CupertinoColors.separator),
-          const Expanded(child: Text('Details placeholder')),
-        ],
+  Widget _buildLargeScreenLayout() {
+    return CupertinoPageScaffold(
+      backgroundColor: CupertinoColors.extraLightBackgroundGray,
+      child: SafeArea(
+        child: Row(
+          children: [
+            SizedBox(
+              width: 320,
+              child: ContactGroupsSidebar(
+                selectedListId: selectedListId,
+                onListSelected: _onContactListSelected,
+              ),
+            ),
+            Container(width: 1, color: CupertinoColors.separator),
+            Expanded(child: ContactListDetail(listId: selectedListId)),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
