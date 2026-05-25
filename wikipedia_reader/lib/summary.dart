@@ -23,7 +23,9 @@ class Summary {
   final ImageFile? thumbnail;
   final ImageFile? originalImage;
 
-  static Summary fromJSon(Map<String, Object?> json) {
+  bool get hasImage => originalImage != null && thumbnail != null;
+
+  static Summary fromJson(Map<String, Object?> json) {
     return switch (json) {
       {
         'titles': final Map<String, Object?> titles,
